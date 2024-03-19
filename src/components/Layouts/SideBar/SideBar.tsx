@@ -1,25 +1,12 @@
-"use client";
-import {
-  CSSObject,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Theme,
-  useTheme,
-} from "@mui/material";
+import { Box, CSSObject, Divider, List, Stack, Theme } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import { ChevronLeft, Menu } from "@mui/icons-material";
-import MailIcon from "@mui/icons-material/Mail";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import SideBarMenuItem from "./SideBarMenuItem";
+import { links } from "@/lib/routes";
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -70,25 +57,22 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 type DrawerType = {
   onToggle?: () => void;
-  open?: boolean;
+  open: boolean;
 };
 
 export default function SideBar({ open, onToggle }: DrawerType) {
-  const theme = useTheme();
-
-  const [data, setData] = useState<menuItem[]>([]);
-
-  useEffect(() => {
-    fetch("/api/menu")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      });
-  }, []);
-
   return (
     <>
-      <Drawer variant="permanent" open={open}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        // PaperProps={{
+        //   sx: {
+        //     backgroundColor: "var(--mui-palette-neutral-950)",
+        //     color: "var(--mui-palette-common-white)",
+        //   },
+        // }}
+      >
         <DrawerHeader>
           <IconButton onClick={onToggle}>
             {open ? <ChevronLeft /> : <Menu />}
@@ -96,36 +80,8 @@ export default function SideBar({ open, onToggle }: DrawerType) {
           <Divider />
         </DrawerHeader>
         <List>
-          {data.map((value) => (
-            <ListItem
-              key={value.id.toString()}
-              disablePadding
-              sx={{ display: "block" }}
-            >
-              <ListItemButton
-                LinkComponent={Link}
-                href={value.link}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {value.id % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={value.title}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
+          {links.map((menu: any, index: any) => (
+            <SideBarMenuItem menuItem={menu} drawerOpen={open} key={index} />
           ))}
         </List>
       </Drawer>

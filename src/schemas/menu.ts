@@ -1,6 +1,7 @@
 type menuItem = {
   id: number;
-  title: string;
-  link: string;
-  icon: string;
+  name: string;
+  link: string| null;
+  icon: string|null;
+  children:menuItem[]
 };

@@ -1,10 +1,10 @@
 "use client";
-import { Box, styled } from "@mui/material";
+import { Box, Container, GlobalStyles, Toolbar, styled } from "@mui/material";
 import Header from "./Header/Header";
 import SideBar from "./SideBar/SideBar";
 import { useState } from "react";
 
- const DrawerHeader = styled("div")(({ theme }) => ({
+const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
@@ -18,7 +18,7 @@ export default function UserLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function UserLayout({
         }}
       >
         <SideBar open={isOpen} onToggle={() => setIsOpen(!isOpen)} />
-        <Box //className="relative z-5 block flex-1"
+        <Box
           sx={{
             position: "relative",
             zIndex: 5,

@@ -15,15 +15,17 @@ import MenuItem from "@mui/material/MenuItem";
 
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
-import { ListItemIcon, styled } from "@mui/material";
+import { ListItemIcon, styled, useColorScheme, useTheme } from "@mui/material";
 import { Logout } from "@mui/icons-material";
 import { logout } from "@/app/actions/login";
 import { useSession } from "next-auth/react";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 const pages = ["Products", "Pricing", "Blog"];
 
 interface AppBarProps extends MuiAppBarProps {
+  onToggle?: () => void;
   open?: boolean;
 }
 
@@ -45,8 +47,9 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-function Header({open}:AppBarProps) {
+function Header({open,onToggle}:AppBarProps) {
   const { data: session } = useSession();
+
   const userProfileImg = session?.user?.image as string;
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -70,8 +73,10 @@ function Header({open}:AppBarProps) {
     setAnchorElUser(null);
   };
 
+
+
   return (
-    <Box sx={{ display: "flex" }}>
+
       <AppBar position="fixed" open={open}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -197,7 +202,7 @@ function Header({open}:AppBarProps) {
           </Toolbar>
         </Container>
       </AppBar>
-    </Box>
+  
   );
 }
 export default Header;
